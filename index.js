@@ -1,7 +1,11 @@
 const express = require("express");
 const morgan = require("morgan");
-const app = express();
+const mongoose = require("mongoose");
 const cors = require("cors");
+const { response } = require("express");
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
+const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static("build"));
@@ -15,6 +19,11 @@ app.use(
 function createId() {
   return Math.floor(Math.random() * Math.floor(1000000));
 }
+
+const personSchema = new mongoose.Schema({
+  name: String,
+  number: String,
+});
 
 let persons = [
   {
@@ -39,8 +48,10 @@ let persons = [
   },
 ];
 
-app.get("/api/persons", (req, res) => {
-  res.json(persons);
+app.get("/api/persons", (request, response) => {
+  Person.find({}).then((persons) => {
+    response.json(persons);
+  });
 });
 
 app.get("/api/persons/:id", (req, res) => {
