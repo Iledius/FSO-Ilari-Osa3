@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { response } = require("express");
-const url = `mongodb+srv://fso:${password}@fsocluster.ntkwi.mongodb.net/phonebook?retryWrites=true&w=majority`;
+
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const app = express();
