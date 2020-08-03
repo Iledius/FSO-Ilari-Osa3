@@ -1,10 +1,10 @@
 const express = require("express");
 const morgan = require("morgan");
+require("dotenv").config();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { response } = require("express");
-const url = `mongodb+srv://fso:qwE123@fsocluster.ntkwi.mongodb.net/phonebook?retryWrites=true&w=majority`;
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+const Person = require("./models/person");
 
 const app = express();
 app.use(express.json());
@@ -20,26 +20,6 @@ app.use(
 function createId() {
   return Math.floor(Math.random() * Math.floor(1000000));
 }
-
-const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
-});
-
-personSchema.set("toJSON", {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
-  },
-});
-
-const Person = mongoose.model("Person", personSchema);
-
-const person = new Person({
-  content: person_name,
-  number: person_number,
-});
 
 let persons = [
   {
@@ -123,7 +103,7 @@ app.get("/info", (req, res) => {
   );
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
